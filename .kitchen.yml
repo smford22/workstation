@@ -1,47 +1,16 @@
 ---
 driver:
-  name: ec2
-  aws_ssh_key_id: scottford
-  region: us-west-2
-  security_group_ids: sg-9ec466e3
-  associate_public_ip: true
-  instance_type: c4.large
-  vpc_mode: true
-  vpc_id: vpc-c1abd7a7
-  subnet_id: subnet-95aaffcecd 
-  tags:
-    # Replace YOURNAME and YOURCOMPANY here
-    Name: "Chef Training Node for <YOURNAME>, <YOURCOMPANY>"
-    created-by: "test-kitchen"
-    user: Administrator
-
+  name: vagrant
 
 provisioner:
-  name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
-  always_update_cookbooks: true
-
-verifier:
-  name: inspec
+  name: chef_solo
 
 platforms:
-  - name: workstation-1-1504231301
-    driver:
-      image_id: ami-60749e18
-    transport:
-      username: chef
-      password: 'RL9@T40BTmXh'
-      ssh_key: /home/scottford/.ssh/scottford
-    driver_config:
-      retryable_tries: 80
+  - name: ubuntu-14.04
+  - name: centos-7.2
 
 suites:
   - name: default
     run_list:
       - recipe[workstation::default]
-    verifier:
-      inspec_tests:
-        - test/smoke/default
     attributes:
