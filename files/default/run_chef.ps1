@@ -1,0 +1,1 @@
+chef-client -z -c C:\Users\chef\config.rb

@@ -1,6 +1,20 @@
 ---
 driver:
-  name: vagrant
+  name: ec2
+  aws_ssh_key_id: scottford
+  region: us-west-2
+  security_group_ids: sg-9ec466e3
+  associate_public_ip: true
+  instance_type: c4.large
+  vpc_mode: true
+  vpc_id: vpc-c1abd7a7
+  subnet_id: subnet-95aaffcecd 
+  tags:
+    # Replace YOURNAME and YOURCOMPANY here
+    Name: "Chef Training Node for <YOURNAME>, <YOURCOMPANY>"
+    created-by: "test-kitchen"
+    user: Administrator
+
 
 provisioner:
   name: chef_zero
@@ -13,8 +27,15 @@ verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7
+  - name: workstation-1-1504231301
+    driver:
+      image_id: ami-60749e18
+    transport:
+      username: chef
+      password: 'RL9@T40BTmXh'
+      ssh_key: /home/scottford/.ssh/scottford
+    driver_config:
+      retryable_tries: 80
 
 suites:
   - name: default
